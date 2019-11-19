@@ -11,6 +11,7 @@ library(skimr)
 library(fs)
 library(purrr)
 library(tidyverse)
+library(broom)
 ```
 
 
@@ -63,7 +64,26 @@ x <- raw %>%
   select(dvote, female, response, gender)
 
 
-lm(dvote ~ female, x)
+model <- glm(dvote ~ female, x, family = "binomial")
+model
+tidy(model)
+glance(model)
+
+x %>%
+  ggplot(aes(x = female, y = dvote)) +
+  geom_jitter() +
+  geom_smooth(method = )
+
+
+my_data <- tibble(female = c(0, 0, 1))
+
+predict.glm(model, newdata = my_data, type = "response")
+
+x_predictions <- x %>%
+  mutate(prediction = predict(model, type = "response"))
+
+x_predictions
+
 ```
 
 
